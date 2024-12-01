@@ -1,8 +1,11 @@
+import { protect } from '../middlewares/auth.js'
 import { body } from 'express-validator'
 import express from 'express'
 import {
     registerUser,
     loginUser,
+    getProfile,
+    updateProfile
 } from '../controllers/userController.js'
 
 const router = express.Router();
@@ -23,5 +26,7 @@ const loginValidation = [
 // Routes
 router.post('/register', registerValidation, registerUser);
 router.post('/login', loginValidation, loginUser);
+router.get('/profile', protect, getProfile);
+router.put('/profile', protect, updateProfile);
 
 export default router
