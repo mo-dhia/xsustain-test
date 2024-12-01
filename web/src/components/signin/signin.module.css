@@ -1,0 +1,16 @@
+.main { width: 100%; height: 100vh; display: flex; padding: 2vw 10vw; }
+.formContainer { flex: 1; display: flex; flex-direction: column; justify-content: center; }
+.formWrapper { width: 60%; }
+.title { font-size: 2.5vw; margin-bottom: 3vw; }
+.form { width: 100%; display: flex; flex-direction: column; gap: .5vw; }
+.label { font-size: 0.9vw; margin-bottom: 0; font-weight: bold; }
+.marginTop { margin-top: 1vw; }
+.input { padding: 0.9vw; border-radius: 0.5vw; border: none; outline: none; }
+.forgotPassword { margin-top: 1vw; font-weight: bolder; text-align: end; cursor: pointer; }
+.button { padding: 1vw; border-radius: 0.5vw; background: var(--ac-secondary); color: var(--t-highlight); border: none; cursor: pointer; margin-top: 1vw; }
+.divider { width: 100%; background: var(--t-secondary); height: 2px; margin: 3vw 0 2vw 0; position: relative; }
+.dividerText { position: absolute; left: 50%; top: 50%; transform: translate(calc(-50% - 2px), -50%); background: var(--bg-base); padding: 1vw; }
+.signInLink { text-align: center; width: 100%; }
+.linkText { color: var(--ac-primary); font-weight: bold; }
+.sideContainer { flex: 1; display: flex; }
+.sideBox { flex: 1; background: brown; border-radius: 1vw; }
