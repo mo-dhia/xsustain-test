@@ -1,4 +1,5 @@
 import mongoose from 'mongoose';
+import bcrypt from 'bcryptjs';
 
 const userSchema = new mongoose.Schema({
     username: {
@@ -27,4 +28,26 @@ const userSchema = new mongoose.Schema({
     }
 });
 
-module.exports = mongoose.model('User', userSchema);
+// Modify the pre-save hook to only hash if password is new or modified
+userSchema.pre('save', async function (next) {
+    // Only hash the password if it has been modified (or is new)
+    if (!this.isModified('password')) {
+        return next();
+    }
+    
+    try {
+        // Use a fixed salt round for consistency
+        const hashedPassword = await bcrypt.hash(this.password, 10);
+        this.password = hashedPassword;
+        next();
+    } catch (error) {
+        return next(error);
+    }
+});
+
+// Compare passwords
+userSchema.methods.comparePassword = async function (enteredPassword) {
+    return await bcrypt.compare(enteredPassword, this.password);
+};
+
+export default mongoose.model('User', userSchema);
