@@ -17,7 +17,7 @@ export default function Signin({ isSignup }) {
     if (user) {
         return <Navigate to="/" replace />;
     }
-    
+
     return (
         <main className={styles.main}>
             <div className={styles.formContainer}>
@@ -60,7 +60,9 @@ export default function Signin({ isSignup }) {
                 </div>
             </div>
             <div className={styles.sideContainer}>
-                <div className={styles.sideBox}></div>
+                <div className={styles.sideBox} >
+
+                </div>
                 <div className={styles.sideBox}></div>
             </div>
         </main>

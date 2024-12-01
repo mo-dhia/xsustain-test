@@ -13,4 +13,6 @@
 .signInLink { text-align: center; width: 100%; }
 .linkText { color: var(--ac-primary); font-weight: bold; }
 .sideContainer { flex: 1; display: flex; }
-.sideBox { flex: 1; background: brown; border-radius: 1vw; }
+.sideBox:nth-of-type(1){ background: url(../../assets/images/signin/0.webp); background-position: left; background-size: cover; }
+.sideBox:nth-of-type(2){ background: url(../../assets/images/signin/1.jpg);  background-position: left; background-size: cover; }
+.sideBox { flex: 1; border-radius: 1vw; }

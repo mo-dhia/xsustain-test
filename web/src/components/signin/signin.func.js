@@ -52,7 +52,6 @@ export const handleFormSubmit = (formData, isSignup, setUser) => async (e) => {
         } else {
             const { data } = await axios.post(import.meta.env.VITE_API_URL + 'users/login', formData)
             setUser(data)
-
         }
     } catch (error) {
         alert(error?.response?.data?.message || 'User not found');
