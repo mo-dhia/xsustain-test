@@ -1,3 +1,5 @@
+import axios from "axios";
+
 export const createInitialFormData = (isSignup) => ({
     email: '',
     password: '',
@@ -25,15 +27,7 @@ export const createInputConfigs = (isSignup) => [
     }] : [])
 ];
 
-export const validateForm = (formData, isSignup) => {
-    if (isSignup) {
-        if (formData.password !== formData.confirmPassword) {
-            alert("Passwords do not match");
-            return false;
-        }
-    }
-    return true;
-};
+
 
 export const handleFormChange = (setFormData) => (e) => {
     const { name, value } = e.target;
@@ -43,10 +37,25 @@ export const handleFormChange = (setFormData) => (e) => {
     }));
 };
 
-export const handleFormSubmit = (formData, isSignup) => (e) => {
+export const handleFormSubmit = (formData, isSignup, setUser) => async (e) => {
     e.preventDefault();
-    
-    if (!validateForm(formData, isSignup))  return;
 
-    console.log('Form submitted:', formData);
+
+    try {
+        if (isSignup) {
+            if (formData.password !== formData.confirmPassword) {
+                alert("Passwords do not match");
+            } else {
+                const { data } = await axios.post(import.meta.env.VITE_API_URL + 'users/register', formData)
+                setUser(data)
+            }
+        } else {
+            const { data } = await axios.post(import.meta.env.VITE_API_URL + 'users/login', formData)
+            setUser(data)
+
+        }
+    } catch (error) {
+        alert(error?.response?.data?.message || 'User not found');
+    }
+
 };

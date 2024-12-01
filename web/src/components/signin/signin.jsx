@@ -1,17 +1,23 @@
 import React, { useState } from 'react';
-import { Link } from 'react-router-dom';
+import { Link, Navigate } from 'react-router-dom';
 import styles from './signin.module.css';
-import { 
-    createInitialFormData, 
-    createInputConfigs, 
-    handleFormChange, 
-    handleFormSubmit 
+import {
+    createInitialFormData,
+    createInputConfigs,
+    handleFormChange,
+    handleFormSubmit
 } from './signin.func.js';
+import { states } from '../../store.js';
 
 export default function Signin({ isSignup }) {
     const [formData, setFormData] = useState(createInitialFormData(isSignup));
     const inputConfigs = createInputConfigs(isSignup);
+    const { setUser, user } = states()
 
+    if (user) {
+        return <Navigate to="/" replace />;
+    }
+    
     return (
         <main className={styles.main}>
             <div className={styles.formContainer}>
@@ -19,7 +25,7 @@ export default function Signin({ isSignup }) {
                     <h1 className={styles.title}>
                         {isSignup ? 'Sign up' : 'Sign in'}
                     </h1>
-                    <form onSubmit={handleFormSubmit(formData, isSignup)} className={styles.form}>
+                    <form onSubmit={handleFormSubmit(formData, isSignup, setUser)} className={styles.form}>
                         {inputConfigs.map((input, index) => (
                             <React.Fragment key={input.name}>
                                 <label className={`${styles.label} ${index > 0 ? styles.marginTop : ''}`}>

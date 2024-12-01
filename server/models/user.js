@@ -2,12 +2,6 @@ import mongoose from 'mongoose';
 import bcrypt from 'bcryptjs';
 
 const userSchema = new mongoose.Schema({
-    username: {
-        type: String,
-        required: true,
-        unique: true,
-        trim: true,
-    },
     email: {
         type: String,
         required: true,
@@ -28,15 +22,12 @@ const userSchema = new mongoose.Schema({
     }
 });
 
-// Modify the pre-save hook to only hash if password is new or modified
 userSchema.pre('save', async function (next) {
-    // Only hash the password if it has been modified (or is new)
     if (!this.isModified('password')) {
         return next();
     }
     
     try {
-        // Use a fixed salt round for consistency
         const hashedPassword = await bcrypt.hash(this.password, 10);
         this.password = hashedPassword;
         next();

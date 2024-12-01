@@ -12,7 +12,7 @@ export const registerUser = async (req, res) => {
             return res.status(400).json({ errors: errors.array() });
         }
 
-        const { username, email, password } = req.body;
+        const { email, password } = req.body;
 
         // Check if user exists
         const userExists = await User.findOne({ email });
@@ -23,9 +23,8 @@ export const registerUser = async (req, res) => {
         const salt = await bcrypt.genSalt(10);
         const hashedPassword = await bcrypt.hash(password, salt);
 
-        // Create user with hashed xpassword
+        // Create user with hashed password
         const user = await User.create({
-            username,
             email,
             password: hashedPassword, 
             role: 'admin'
@@ -33,7 +32,6 @@ export const registerUser = async (req, res) => {
 
         res.status(201).json({
             _id: user._id,
-            username: user.username,
             email: user.email,
             role: user.role,
             token: generateToken(user._id)
@@ -47,8 +45,6 @@ export const registerUser = async (req, res) => {
 // Login user
 export const loginUser = async (req, res) => {
     try {
-
-   
         const errors = validationResult(req);
         if (!errors.isEmpty()) {
             return res.status(400).json({ errors: errors.array() });
@@ -57,12 +53,9 @@ export const loginUser = async (req, res) => {
         const { email, password } = req.body;
         const user = await User.findOne({ email });
 
-        console.log(await bcrypt.compare(password, user.password));
-        console.log(user.password);
         if (user && await bcrypt.compare(password, user.password)) {
             res.json({
                 _id: user._id,
-                username: user.username,
                 email: user.email,
                 role: user.role,
                 token: generateToken(user._id)
@@ -94,25 +87,28 @@ export const updateProfile = async (req, res) => {
             return res.status(404).json({ message: 'User not found' });
         }
 
-        // Update username and email
-        user.username = req.body.username || user.username;
         user.email = req.body.email || user.email;
 
-        // If password is provided, update it
         if (req.body.password) {
-            user.password = req.body.password;
+            // Hash the new password before saving
+            const salt = await bcrypt.genSalt(10);
+            user.password = await bcrypt.hash(req.body.password, salt);
         }
 
         const updatedUser = await user.save();
-        
         res.json({
             _id: updatedUser._id,
-            username: updatedUser.username,
             email: updatedUser.email,
             role: updatedUser.role
         });
     } catch (error) {
-        console.error('Update Profile Error:', error);
-        res.status(500).json({ message: 'Server error', error: error.message });
+        res.status(500).json({ message: 'Server error' });
     }
+};
+
+export default {
+    registerUser,
+    loginUser,
+    getProfile,
+    updateProfile
 };
