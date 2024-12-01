@@ -94,16 +94,17 @@ export const updateProfile = async (req, res) => {
             return res.status(404).json({ message: 'User not found' });
         }
 
+        // Update username and email
         user.username = req.body.username || user.username;
         user.email = req.body.email || user.email;
 
+        // If password is provided, update it
         if (req.body.password) {
-            // Hash the new password before saving
-            const salt = await bcrypt.genSalt(10);
-            user.password = await bcrypt.hash(req.body.password, salt);
+            user.password = req.body.password;
         }
 
         const updatedUser = await user.save();
+        
         res.json({
             _id: updatedUser._id,
             username: updatedUser.username,
@@ -111,6 +112,7 @@ export const updateProfile = async (req, res) => {
             role: updatedUser.role
         });
     } catch (error) {
-        res.status(500).json({ message: 'Server error' });
+        console.error('Update Profile Error:', error);
+        res.status(500).json({ message: 'Server error', error: error.message });
     }
 };
