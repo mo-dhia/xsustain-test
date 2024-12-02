@@ -13,7 +13,6 @@ export const registerUser = async (req, res) => {
         }
 
         const { email, password } = req.body;
-
         // Check if user exists
         const userExists = await User.findOne({ email });
         if (userExists) {
@@ -84,10 +83,12 @@ export const getProfile = async (req, res) => {
 // Update user profile
 export const updateProfile = async (req, res) => {
     try {
+
         const user = await User.findById(req.user._id);
         if (!user) {
             return res.status(404).json({ message: 'User not found' });
         }
+
 
         // Update email if provided
         if (req.body.email && req.body.email !== user.email) {
@@ -116,6 +117,7 @@ export const updateProfile = async (req, res) => {
             _id: updatedUser._id,
             email: updatedUser.email,
             role: updatedUser.role,
+            token: generateToken(user._id),
             message: 'Profile updated successfully'
         });
 
