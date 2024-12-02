@@ -7,6 +7,7 @@
 .activeLink { color: var(--ac-primary); }
 .selector { position: absolute; width: 5vw; height: 2px; background: var(--ac-primary); bottom: 0; transition: transform .3s, width .3s; }
 .rightContainer { display: flex; gap: 1vw; margin-top: 2vw; }
+.rightContainer svg {width: 1.7vw; height: 1.7vw;}
 .searchContainer { position: relative; display: flex; align-items: center; }
 .searchInput { border: none; width: 15vw; height: 2.75vw; border-radius: 1vw; padding-left: 2.5vw; font-size: 1vw; color: var(--ac-primary); }
 .searchIcon { position: absolute; left: 0.5vw; top: 50%; transform: translateY(-50%); color: #E76625; }
