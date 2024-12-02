@@ -1,80 +1,80 @@
 import Recipe from "../models/recipe.js";
 
 export const getRecipes = async (req, res) => {
-    try {
-      const { 
-        search, 
-        difficulty, 
-        type, 
-        cuisine, 
-        page = 0 
-      } = req.query;
-      const itemsPerPage = 12;
-      const filter = {};
-  
-      console.log('Request Query Parameters:', req.query);
-  
-      if (search) {
-        filter.$text = { $search: search };
-        filter.$or = [
-          { title: { $regex: search, $options: 'i' } },
-          { description: { $regex: search, $options: 'i' } }
-        ];
-      }
-  
-      if (difficulty) {
-        filter.difficulty = difficulty.toLowerCase();
-      }
-  
-      if (type) {
-        filter.mealType = type.toLowerCase();
-      }
-  
-      if (cuisine) {
-        filter.cuisine = cuisine.toLowerCase();
-      }
-  
-      console.log('Filter:', filter);
-  
-      const totalRecipes = await Recipe.countDocuments(filter);
-      console.log('Total Recipes Count:', totalRecipes);
-  
-      const recipes = await Recipe.find(filter)
-        .populate({
-          path: 'author',
-          select: 'username'
-        })
-        .sort({ createdAt: -1 })
-        .skip(Number(page) * itemsPerPage)
-        .limit(itemsPerPage)
-        .lean(); 
-  
-  
-      const totalPages = Math.ceil(totalRecipes / itemsPerPage);
-  
-      return res.status(200).json({
-        success: true,
-        data: {
-          recipes,
-          pagination: {
-            currentPage: Number(page),
-            totalPages,
-            totalRecipes,
-          }
-        }
-      });
-  
-    } catch (error) {
-      console.error('Error in getRecipes:', error);
-      return res.status(500).json({
-        success: false,
-        message: 'Internal server error',
-        error: error.message
-      });
-    }
-  };  
+  try {
+    const {
+      search,
+      difficulty,
+      type,
+      cuisine,
+      page = 0
+    } = req.query;
+    const itemsPerPage = 12;
+    const filter = {};
 
-  
+    // console.log('Request Query Parameters:', req.query);
+
+    if (search) {
+      filter.$text = { $search: search };
+      filter.$or = [
+        { title: { $regex: search, $options: 'i' } },
+        { description: { $regex: search, $options: 'i' } }
+      ];
+    }
+
+    if (difficulty) {
+      filter.difficulty = difficulty.toLowerCase();
+    }
+
+    if (type) {
+      filter.mealType = type.toLowerCase();
+    }
+
+    if (cuisine) {
+      filter.cuisine = cuisine.toLowerCase();
+    }
+
+    console.log('Filter:', filter);
+
+    const totalRecipes = await Recipe.countDocuments(filter);
+    console.log('Total Recipes Count:', totalRecipes);
+
+    const recipes = await Recipe.find(filter)
+      .populate({
+        path: 'author',
+        select: 'username'
+      })
+      .sort({ createdAt: -1 })
+      .skip(Number(page) * itemsPerPage)
+      .limit(itemsPerPage)
+      .lean();
+
+
+    const totalPages = Math.ceil(totalRecipes / itemsPerPage);
+
+    return res.status(200).json({
+      success: true,
+      data: {
+        recipes,
+        pagination: {
+          currentPage: Number(page),
+          totalPages,
+          totalRecipes,
+        }
+      }
+    });
+
+  } catch (error) {
+    console.error('Error in getRecipes:', error);
+    return res.status(500).json({
+      success: false,
+      message: 'Internal server error',
+      error: error.message
+    });
+  }
+};
+
+
 
 export const getRecipeById = async (req, res) => {
   try {
@@ -122,7 +122,7 @@ export const createRecipe = async (req, res) => {
 
     const recipe = await Recipe.create({
       title,
-      author: req.user._id, 
+      author: req.user._id,
       difficulty,
       prepTime,
       cookTime,

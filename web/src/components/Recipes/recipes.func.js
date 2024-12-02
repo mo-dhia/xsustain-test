@@ -52,21 +52,22 @@ export const toggleDropdown = (key, activeDropdown, setActiveDropdown) => {
     setActiveDropdown(activeDropdown === key ? null : key);
 };
 
-let scrollPage = 0;
 
-export const fetchRecipes = async (searchParams, setData) => {
+export const fetchRecipes = async (searchParams, setData, scrollPage = 0) => {
     const params = {};
     searchParams.forEach((value, key) => {
         params[key] = value;
     });
     try {
-        const response = await axios.get('http://localhost:5000/api/recipe', {
+        const { data } = await axios.get('http://localhost:5000/api/recipe', {
             params: {
                 ...params,
                 page: scrollPage,
             }
         });
-        setData(response.data.data);
+        const { recipes, pagination } = data.data
+        console.log(pagination, 'fired');
+        setData(prev => ({ recipes: [...prev.recipes, ...recipes], pagination }));
     } catch (error) {
         console.log(error);
     }

@@ -1,14 +1,11 @@
 import React, { useState, useEffect, useRef } from 'react';
-import { useSearchParams } from 'react-router-dom';
 import { MingcuteSearchLine, PhCaretDownBold } from '../../svgs/svg';
 import styles from '../recipes.module.css';
-import { updateQueryParams, getInitialValues, SELECTS, handleSearchChange, handleSelectChange, toggleDropdown, fetchRecipes } from '../recipes.func';
+import { updateQueryParams, getInitialValues, SELECTS, handleSearchChange, handleSelectChange, toggleDropdown } from '../recipes.func';
 import { debounce } from '../../../utils/utils';
 
-export default function RecipeFilters({ setData }) {
-    const [searchParams, setSearchParams] = useSearchParams();
+export default function RecipeFilters({ searchParams, setSearchParams }) {
     const searchInput = useRef(null);
-    const initialRef = useRef(false);
     const [filters, setFilters] = useState(getInitialValues(searchParams));
     const [activeDropdown, setActiveDropdown] = useState(null);
 
@@ -18,14 +15,7 @@ export default function RecipeFilters({ setData }) {
         }, 500)
     ).current;
 
-    useEffect(() => {
-        const hasSearchParam = searchParams.has('search');
-        if (hasSearchParam && !initialRef.current) {
-            searchInput.current.focus();
-            initialRef.current = true;
-        }
-        fetchRecipes(searchParams, setData);
-    }, [searchParams]);
+
 
 
     return (
