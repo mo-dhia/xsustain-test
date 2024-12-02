@@ -5,7 +5,7 @@ import Signin from './components/signin/signin';
 // import RecipePreview from './components/recipePreview/recipePreview';
 import Home from './components/Home/Home';
 import Categories from './components/categories/categories';
-import Recipes from './components/Recipes/Recipes';
+import Recipes from './components/recipes/recipes';
 import Account from './components/account/account';
 
 

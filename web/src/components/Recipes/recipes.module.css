@@ -1,0 +1,11 @@
+.container { z-index: 1; position: relative; }
+.searchContainer { width: 100%; height: 3vw; margin-top: 7.5vw; display: flex; gap: .5vw; align-items: center; position: relative; border-radius: 1.2vw; }
+.searchInput { width: 60%; height: 100%; border-radius: inherit; border: none; padding: 0 1vw 0 2.5vw; font-size: 1vw; color: var(--ac-primary); background: var(--bg-elevated); }
+.searchInput::placeholder { color: inherit; }
+.searchIcon { position: absolute; left: .75vw; top: 50%; transform: translateY(-50%); width: 1.5vw; height: 1.5vw; color: var(--ac-primary); z-index: 1; }
+.selectWrapper { flex: 1; background: var(--bg-select); height: 100%; border-radius: inherit; min-width: 0; position: relative; display: flex; align-items: center; padding: 0 1vw; }
+.selectLabel { position: absolute; color: var(--ac-primary); right: 0; top: 0; transform: translate(-1vw, calc(-100% - .1vw)); font-size: .9vw; }
+.caretIcon { width: 1vw; height: 1vw; position: absolute; right: .5vw; top: 50%; transform: translate(0, -50%); }
+.dropdownMenu {  position: absolute;  left: 0;  width: 100%;  background: inherit;  display: flex;  flex-direction: column;  border-radius: inherit;  top: calc(100% + .15vw); overflow: hidden; transition: all 0.3s ease; max-height: 0; opacity: 0; padding: 1vw .2vw   }
+.dropdownItem { height: 2vw; display: flex; align-items: center; padding: 0 1vw; border-radius: .5vw; cursor: pointer;}
+.dropdownItem:hover { background: var(--bg-base);}

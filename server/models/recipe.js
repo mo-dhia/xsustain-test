@@ -71,6 +71,16 @@ const recipeSchema = new mongoose.Schema({
       type: String,
       required: true
     }],
+    savedBy: [{
+      user: {
+        type: mongoose.Schema.Types.ObjectId,
+        ref: 'User'
+      },
+      savedAt: {
+        type: Date,
+        default: Date.now
+      }
+    }],
     createdAt: {
       type: Date,
       default: Date.now
@@ -78,4 +88,5 @@ const recipeSchema = new mongoose.Schema({
   });
   
 export default mongoose.model('Recipe', recipeSchema);
+
 

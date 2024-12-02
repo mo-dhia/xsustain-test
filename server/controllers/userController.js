@@ -27,7 +27,7 @@ export const registerUser = async (req, res) => {
         const user = await User.create({
             email,
             password: hashedPassword, 
-            role: 'admin'
+            role: 'user'
         });
 
         res.status(201).json({
