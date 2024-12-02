@@ -9,7 +9,7 @@ export const getRecipes = async (req, res) => {
         cuisine, 
         page = 0 
       } = req.query;
-      const itemsPerPage = 10;
+      const itemsPerPage = 12;
       const filter = {};
   
       console.log('Request Query Parameters:', req.query);
@@ -51,8 +51,6 @@ export const getRecipes = async (req, res) => {
   
   
       const totalPages = Math.ceil(totalRecipes / itemsPerPage);
-      const hasNext = (Number(page) + 1) < totalPages;
-      const hasPrevious = Number(page) > 0;
   
       return res.status(200).json({
         success: true,
@@ -62,9 +60,6 @@ export const getRecipes = async (req, res) => {
             currentPage: Number(page),
             totalPages,
             totalRecipes,
-            hasNext,
-            hasPrevious,
-            itemsPerPage
           }
         }
       });

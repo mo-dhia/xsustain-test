@@ -1,3 +1,4 @@
+import axios from "axios";
 
 
 export const updateQueryParams = (searchParams, setSearchParams, updates) => {
@@ -51,10 +52,23 @@ export const toggleDropdown = (key, activeDropdown, setActiveDropdown) => {
     setActiveDropdown(activeDropdown === key ? null : key);
 };
 
-export const logSearchParams = (searchParams) => {
-    const paramsObject = {};
+let scrollPage = 0;
+
+export const fetchRecipes = async (searchParams, setData) => {
+    const params = {};
     searchParams.forEach((value, key) => {
-        paramsObject[key] = value;
+        params[key] = value;
     });
-    console.log('Current search parameters:', paramsObject);
-};
+    try {
+        const response = await axios.get('http://localhost:5000/api/recipe', {
+            params: {
+                ...params,
+                page: scrollPage,
+            }
+        });
+        setData(response.data.data);
+    } catch (error) {
+        console.log(error);
+    }
+
+}
