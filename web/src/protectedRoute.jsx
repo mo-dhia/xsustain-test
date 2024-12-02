@@ -1,21 +1,30 @@
 import { Navigate, Outlet } from 'react-router-dom';
 import { states } from './store';
 import Layout from './components/layout/layout';
+import { useEffect } from 'react';
 
 const ProtectedRoute = () => {
-    const { user } = states();
+    const { user, setUser } = states();
 
+    useEffect(() => {
+        if (!user) {
+            const storedUser = localStorage.getItem("user");
+            if (storedUser) {
+                setUser(JSON.parse(storedUser));
+            }
+        }
+    }, [user]);
 
-    // If no user is logged in, redirect to login page
-    if (!user) {
+    if (!user && !localStorage.getItem("user")) {
         return <Navigate to="/login" replace />;
     }
 
     // If user exists, render the child routes
-    return <Layout>
-        <Outlet />
-    </Layout>
-
+    return (
+        <Layout>
+            <Outlet />
+        </Layout>
+    );
 };
 
 export default ProtectedRoute;
