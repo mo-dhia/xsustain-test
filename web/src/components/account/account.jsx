@@ -1,10 +1,13 @@
-import React, { useState } from 'react'
+import React, { useEffect, useState } from 'react'
 import { LineMdClose, LineMdInstagram, MageFacebookSquare } from '../svgs/svg'
 import axios from 'axios';
 import { states } from '../../store';
+import RecipeList from '../recipes/subComps/list';
 
 export default function Account() {
   const [sidePanel, setSidePanel] = useState(false)
+  const [savedRecipes, setSavedRecipes] = useState([])
+  const [createdRecipes, setCreatedRecipes] = useState([])
   const [formData, setFormData] = useState({
     email: "",
     password: "",
@@ -34,7 +37,6 @@ export default function Account() {
       alert("Passwords do not match!");
       return;
     }
-    console.log(user.token);
 
     try {
       const { data } = await axios.put(import.meta.env.VITE_API_URL + 'users/profile', formData, {
@@ -43,7 +45,6 @@ export default function Account() {
         }
       });
 
-      console.log(data);
       setUser(data);
       localStorage.setItem("user", JSON.stringify(data));
       setSidePanel(false)
@@ -52,6 +53,22 @@ export default function Account() {
       // alert("An error occurred while submitting the form.");
     }
   };
+
+  useEffect(() => {
+    if (user?.token) {
+      axios.get(import.meta.env.VITE_API_URL + 'users/profile', {
+        headers: {
+          Authorization: `Bearer eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJpZCI6IjY3NGUxMmUxNGQ2ZThlMDg3NzhhMWE4NCIsImlhdCI6MTczMzE2OTg4OSwiZXhwIjoxNzM1NzYxODg5fQ.C1LAp_yfmkR8n2J683rF-e7ugoeDd6LZsbfTPbys0M0`
+        }
+      }).then(r => {
+        const { user, createdRecipes, savedRecipes } = r.data
+
+        setSavedRecipes(savedRecipes)
+        setCreatedRecipes(createdRecipes)
+      })
+    }
+
+  }, [user])
 
   return <div style={{ height: '100%', position: 'relative', width: '100%', }}>
     <div style={{ width: '100%', marginTop: '7.5vw', display: 'flex', justifyContent: 'space-between' }}>
@@ -106,6 +123,11 @@ export default function Account() {
         ))}
         <button type="submit" style={{ background: 'var(--ac-secondary)', color: 'var(--t-highlight)', alignSelf: 'center', width: '10vw', fontSize: '1.3vw', height: '3vw', borderRadius: '2vw .5vw 2vw .5vw', marginTop: '2vw' }}>Submit</button>
       </form>
+    </div>
+
+
+    <div style={{ marginTop: '15vw' }}>
+      <RecipeList recipes={createdRecipes} />
     </div>
 
   </div>

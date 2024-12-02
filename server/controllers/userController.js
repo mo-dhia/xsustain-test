@@ -2,6 +2,7 @@ import User from '../models/user.js'
 import bcrypt from 'bcryptjs'
 import { validationResult } from 'express-validator'
 import { generateToken } from '../utils.js';
+import Recipe from '../models/recipe.js';
 
 
 // Register user
@@ -74,11 +75,32 @@ export const loginUser = async (req, res) => {
 export const getProfile = async (req, res) => {
     try {
         const user = await User.findById(req.user._id).select('-password');
-        res.json(user);
+
+        if (!user) {
+            return res.status(404).json({ message: 'User not found' });
+        }
+
+        const createdRecipes = await Recipe.find({ author: req.user._id });
+
+        const savedRecipes = await Recipe.find({
+            'savedBy.user': req.user._id
+        });
+
+        res.json({
+            user,
+            createdRecipes,
+            savedRecipes
+        });
     } catch (error) {
-        res.status(500).json({ message: 'Server error' });
+        console.error('Profile retrieval error:', error);
+        res.status(500).json({
+            message: 'Server error',
+            error: error.message
+        });
     }
 };
+
+
 
 // Update user profile
 export const updateProfile = async (req, res) => {
