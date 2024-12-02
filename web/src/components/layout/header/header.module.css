@@ -5,10 +5,10 @@
 .linksContainer { display: flex; gap: 2.5vw; margin-top: 2vw; position: relative; height: 2vw; align-items: center; }
 .link { font-size: 1.3vw; color: #636263; transition: color .3s; padding: 0 .25vw; }
 .activeLink { color: var(--ac-primary); }
-.selector { position: absolute; width: 5vw; height: 2px; background: var(--ac-primary); bottom: 0; transition: transform .3s, width .3s; }
+.selector { position: absolute; width: 0; height: 2px; opacity: 0; background: var(--ac-primary); bottom: 0; transition: transform .3s, width .3s, opacity .5s ease-out .3s; }
 .rightContainer { display: flex; gap: 1vw; margin-top: 2vw; }
 .rightContainer svg {width: 1.7vw; height: 1.7vw;}
 .searchContainer { position: relative; display: flex; align-items: center; }
-.searchInput { border: none; width: 15vw; height: 2.75vw; border-radius: 1vw; padding-left: 2.5vw; font-size: 1vw; color: var(--ac-primary); }
+.searchInput { cursor:text; border: none; width: 15vw; height: 2.75vw; border-radius: 1vw; padding-left: 2.5vw; font-size: 1vw; color: var(--ac-primary); background: white; display: flex; align-items: center; font-weight: 600; font-size: 1vw; }
 .searchIcon { position: absolute; left: 0.5vw; top: 50%; transform: translateY(-50%); color: #E76625; }
 .createButton { background: var(--ac-primary); color: white; display: flex; align-items: center; justify-content: center; width: 12vw; height: 2.75vw; border-top-right-radius: 0.4vw; border-bottom-left-radius: 0.4vw; border-top-left-radius: 1vw; border-bottom-right-radius: 1vw; font-size: 1vw; gap: .5vw; }

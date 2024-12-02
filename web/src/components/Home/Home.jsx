@@ -5,8 +5,6 @@ export default function Home() {
   return (
     <main>
       <Hero />
-
-      <div style={{ height: '200vh' }} />
     </main>
   )
 }

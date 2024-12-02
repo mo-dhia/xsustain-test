@@ -13,15 +13,12 @@ export const useHeaderLogic = () => {
         setCurrentPage(pageIndex)
 
         if (pageIndex !== -1) {
-            const linkElement = linksContainer.current.children[pageIndex]
-            const rect = linkElement.getBoundingClientRect()
-            const width = rect.width
-            const containerRect = linksContainer.current.getBoundingClientRect()
-            const offsetLeft = rect.left - containerRect.left
+            const { offsetLeft, clientWidth } = linksContainer.current.children[pageIndex]
 
             if (selector.current) {
+                selector.current.style.opacity = 1
                 selector.current.style.transform = `translateX(${offsetLeft}px)`
-                selector.current.style.width = `${width}px)`
+                selector.current.style.width = `${clientWidth}px`
             }
         }
     }

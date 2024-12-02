@@ -35,8 +35,10 @@ export default function Header() {
 
             <div className={styles.rightContainer}>
                 <div className={styles.searchContainer}>
-                    <input type='text' placeholder='Search' className={styles.searchInput} />
-                    <MingcuteSearchLine className={styles.searchIcon} />
+                    <Link to="/recipes?search=" className={styles.searchInput}>
+                        <MingcuteSearchLine className={styles.searchIcon} />
+                        Search
+                    </Link>
                 </div>
                 <button className={styles.createButton}>
                     <HugeiconsFileAdd /> Create Recipe
