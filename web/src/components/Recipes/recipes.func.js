@@ -53,7 +53,7 @@ export const toggleDropdown = (key, activeDropdown, setActiveDropdown) => {
 };
 
 
-export const fetchRecipes = async (searchParams, setData, scrollPage = 0) => {
+export const fetchRecipes = async (searchParams, setData, isPagination, scrollPage = 0) => {
     const params = {};
     searchParams.forEach((value, key) => {
         params[key] = value;
@@ -66,8 +66,8 @@ export const fetchRecipes = async (searchParams, setData, scrollPage = 0) => {
             }
         });
         const { recipes, pagination } = data.data
-        console.log(pagination, 'fired');
-        setData(prev => ({ recipes: [...prev.recipes, ...recipes], pagination }));
+
+        setData(prev => isPagination ? ({ recipes: [...prev.recipes, ...recipes], pagination }) : { recipes, pagination });
     } catch (error) {
         console.log(error);
     }

@@ -4,8 +4,7 @@ import styles from '../recipes.module.css';
 import { updateQueryParams, getInitialValues, SELECTS, handleSearchChange, handleSelectChange, toggleDropdown } from '../recipes.func';
 import { debounce } from '../../../utils/utils';
 
-export default function RecipeFilters({ searchParams, setSearchParams }) {
-    const searchInput = useRef(null);
+export default function RecipeFilters({ searchParams, setSearchParams, searchInput }) {
     const [filters, setFilters] = useState(getInitialValues(searchParams));
     const [activeDropdown, setActiveDropdown] = useState(null);
 
