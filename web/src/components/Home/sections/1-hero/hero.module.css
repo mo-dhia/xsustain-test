@@ -1,4 +1,4 @@
-.section { display: flex; width: 100%; margin-top: 7.5vw; margin-bottom: 7.5vw; gap: .5vw; }
+.section { display: flex; width: 100%; margin-top: 1vw; margin-bottom: 7.5vw; gap: .5vw; }
 .contentWrapper { flex: 1; height: 70%; margin-top: 7vw; font-size: 3.4vw; }
 .description { font-size: 1.3vw; line-height: 1.75; margin-top: 1vw; }
 .buttonContainer { display: flex; width: 100%; margin-top: 1.25vw; gap: 1vw; }

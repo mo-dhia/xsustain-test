@@ -6,7 +6,7 @@ export default function RecipeList({ recipes }) {
     return <section style={{ margin: '7.5vw 0' }}>
         <h1 style={{ fontSize: '5vw', textAlign: 'center' }}>Recipes</h1>
         <div style={{ display: 'flex', flexWrap: 'wrap', gap: '5vw 2vw', marginTop: '7.5vw' }}>
-            {recipes.map((element, index) => {
+            {!recipes.length ? <h1>No Recipe Found</h1> : recipes.map((element, index) => {
                 const randomNumber = Math.floor(Math.random() * 11);
                 return <Link to={'/recipe/' + element._id} key={index} style={{
                     width: 'calc((100% / 4) - (2vw * 0.75))', height: '30vw', display: 'flex', justifyContent: 'center', alignItems: 'flex-end', position: 'relative'
