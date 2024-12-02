@@ -13,8 +13,9 @@ const recipeSchema = new mongoose.Schema({
     },
     difficulty: {
       type: String,
-      enum: ['Easy', 'Medium', 'Hard'],
-      required: true
+      enum: ['easy', 'medium', 'hard'],
+      required: true,
+      lowercase: true 
     },
     prepTime: {
       type: Number,
@@ -51,13 +52,15 @@ const recipeSchema = new mongoose.Schema({
     },
     mealType: {
       type: String,
-      enum: ['Breakfast', 'Lunch', 'Dinner', 'Dessert', 'Snack'],
-      required: true
+      enum: ['breakfast', 'lunch', 'dinner', 'dessert', 'snack'],
+      required: true,
+      lowercase: true 
     },
     cuisine: {
       type: String,
-      enum: ['Italian', 'American', 'Chinese', 'Indian', 'Mexican', 'French', 'Japanese', 'African', 'Mediterranean'],
-      required: true
+      enum: ['italian', 'american', 'chinese', 'indian', 'mexican', 'french', 'japanese', 'african', 'mediterranean'],
+      required: true,
+      lowercase: true 
     },
     description: {
       type: String,
@@ -86,6 +89,8 @@ const recipeSchema = new mongoose.Schema({
       default: Date.now
     }
   });
+
+  recipeSchema.index({ title: 'text', description: 'text' });
   
 export default mongoose.model('Recipe', recipeSchema);
 
