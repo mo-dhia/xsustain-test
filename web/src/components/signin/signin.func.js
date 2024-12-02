@@ -14,7 +14,7 @@ export const createInputConfigs = (isSignup) => [
         placeholder: 'Email@example.com'
     },
     {
-        name: isSignup ? 'Set Password' : 'password',
+        name: isSignup ? 'password' : 'password',
         label: isSignup ? 'Set Password' : 'Password',
         type: 'password',
         placeholder: 'At least 4 characters'
@@ -43,9 +43,11 @@ export const handleFormSubmit = (formData, isSignup, setUser) => async (e) => {
 
     try {
         if (isSignup) {
+            console.log(formData);
             if (formData.password !== formData.confirmPassword) {
                 alert("Passwords do not match");
             } else {
+                console.log(formData);
                 const { data } = await axios.post(import.meta.env.VITE_API_URL + 'users/register', formData)
                 setUser(data)
             }

@@ -20,27 +20,29 @@ export const registerUser = async (req, res) => {
             return res.status(400).json({ message: 'User already exists' });
         }
 
-        const salt = await bcrypt.genSalt(10);
-        const hashedPassword = await bcrypt.hash(password, salt);
-
-        // Create user with hashed password
         const user = await User.create({
             email,
-            password: hashedPassword, 
+            password,
             role: 'user'
         });
 
-        res.status(201).json({
+        console.log('User created:', user);
+        if (!user) {
+            return res.status(400).json({ message: 'Failed to create user' });
+        }
+
+        return res.status(201).json({
             _id: user._id,
             email: user.email,
             role: user.role,
             token: generateToken(user._id)
         });
+
     } catch (error) {
-        res.status(500).json({ message: 'Server error' });
+        console.error('Registration error:', error);
+        return res.status(500).json({ message: 'Server error', error: error.message });
     }
 };
-
 
 // Login user
 export const loginUser = async (req, res) => {
@@ -87,22 +89,42 @@ export const updateProfile = async (req, res) => {
             return res.status(404).json({ message: 'User not found' });
         }
 
-        user.email = req.body.email || user.email;
+        // Update email if provided
+        if (req.body.email && req.body.email !== user.email) {
+            // Check if email already exists
+            const emailExists = await User.findOne({ email: req.body.email });
+            if (emailExists) {
+                return res.status(400).json({ message: 'Email already in use' });
+            }
+            user.email = req.body.email;
+        }
 
         if (req.body.password) {
-            // Hash the new password before saving
-            const salt = await bcrypt.genSalt(10);
-            user.password = await bcrypt.hash(req.body.password, salt);
+            if (req.body.currentPassword) {
+                const isMatch = await user.comparePassword(req.body.currentPassword);
+                if (!isMatch) {
+                    return res.status(400).json({ message: 'Current password is incorrect' });
+                }
+            }
+
+            user.password = req.body.password;
         }
 
         const updatedUser = await user.save();
-        res.json({
+
+        return res.json({
             _id: updatedUser._id,
             email: updatedUser.email,
-            role: updatedUser.role
+            role: updatedUser.role,
+            message: 'Profile updated successfully'
         });
+
     } catch (error) {
-        res.status(500).json({ message: 'Server error' });
+        console.error('Update profile error:', error);
+        return res.status(500).json({
+            message: 'Server error',
+            error: error.message
+        });
     }
 };
 

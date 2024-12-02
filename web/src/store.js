@@ -14,7 +14,7 @@ const dummyUser = {
     "token": "eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJpZCI6IjY3NGM3ZDMzNTZiYThlZTFlMjQ0OGM0NCIsImlhdCI6MTczMzA4NTQ3NiwiZXhwIjoxNzM1Njc3NDc2fQ.UUfYaq8mhqD3mA0mq4OtlIJGTpajWZevyx_pA3Nmj_o"
 }
 export const states = create((set) => ({
-    user: dummyUser,
+    user: null,
     setUser: (v) => updateState(set, 'user', v),
 }));
 
