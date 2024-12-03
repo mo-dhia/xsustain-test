@@ -1,0 +1,33 @@
+.container { margin: 5vw 0; position: relative; z-index: 1; }
+.backButton { margin-bottom: 2vw; display: flex; height: 2vw; align-items: center; gap: 1vw; }
+.backIcon { height: 2vw; width: 2vw; color: var(--ac-primary); }
+.backText { font-size: 2vw; color: var(--ac-primary); }
+.content { width: 100%; display: flex; }
+.mainSection { flex: 1; }
+.titleSection { font-size: 2.5vw; display: flex; align-items: center; }
+.mealType { font-size: 1.5vw; }
+.separator { padding: 0 1vw; }
+.ratingSection { margin-top: .5vw; display: flex; align-items: center; }
+.star { width: 2vw; height: 2vw; color: var(--bg-highlight); }
+.emptyStar { width: 1.6vw; height: 1.6vw; color: var(--bg-highlight); }
+.ratingCount { margin-left: 1vw; font-size: 1.25vw; color: var(--bg-highlight); }
+.statsContainer { display: flex; align-items: center; margin-top: 8vw; height: 4vw; }
+.statItem { display: flex; flex-direction: column; align-items: center; gap: .5vw; }
+.statValue { font-size: 2.5vw; }
+.statLabel { font-size: 1vw; text-transform: uppercase; }
+.statDivider { width: 1px; height: 80%; background: var(--t-primary); margin: 0 2vw; }
+.description { margin-top: 6vw; font-size: 1.1vw; margin-bottom: -3vw; }
+.section {margin-top: 7vw;}
+.sectionTitle { margin-bottom: 1vw; background: var(--bg-highlight); text-transform: uppercase; display: inline-block; padding: .5vw 1vw; font-size: 1.2vw; font-weight: bold; border-radius: 1vw .5vw 1vw .5vw; margin-bottom: 1vw; }
+.nutritionGrid { display: flex; gap: 1vw; }
+.nutritionItem { margin-top: 2vw; width: 4vw; height: 4vw; border-radius: 50%; background: #D28A56; display: flex; justify-content: center; align-items: center; flex-direction: column; }
+.nutritionValue { font-size: 1.1vw; }
+.nutritionLabel { font-size: .8vw; }
+.list { display: flex; flex-direction: column; gap: .8vw; margin-left: 1vw; font-size: 1.1vw; margin-top: 1.5vw; }
+.imageSection { margin-top: -2vw; }
+.actionButtons { display: flex; gap: .5vw; margin-bottom: 1vw; justify-content: flex-end; }
+.actionButton { width: 3vw; height: 3vw; font-size: 1.5vw; border-radius: 1vw .5vw 1vw .5vw; }
+.editButton { background: var(--ac-primary); }
+.deleteButton { background: brown; }
+.actionIcon { color: var(--bg-base); width: 50%; height: 50%; }
+.recipeImage { width: 40vw; height: auto; object-fit: contain; border-radius: 3vw 1vw 3vw 1vw; }

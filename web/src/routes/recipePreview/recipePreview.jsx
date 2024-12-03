@@ -1,150 +1,106 @@
-import axios from 'axios';
-import React, { useEffect, useState } from 'react';
+import React from 'react';
+import styles from './recipePreview.module.css';
+import { useRecipePreviewLogic } from './recipePreview.func';
 import { IcRoundStar, MynauiStar, LineMdEditFullFilled, IcRoundDelete, LineMdArrowLeft } from '../../components/svgs/svg';
 import SidePanel from '../../components/sidePanel/sidePanel';
-import { useNavigate } from 'react-router-dom';
-import { states } from '../../utils/store';
-
 
 export default function RecipePreview() {
-    const [recipe, setRecipe] = useState(null)
-    const { user, setUser, setSidePanel } = states()
-    const navigate = useNavigate()
+    const {
+        recipe,
+        user,
+        navigate,
+        handleSubmit,
+        handleDelete,
+        setSidePanel,
+        randomImageIndex,
+        fields,
+        stats,
+        sections
+    } = useRecipePreviewLogic();
 
-    useEffect(() => {
-        const fetchData = async () => {
-            try {
-                const url = window.location.href;
-                const id = url.split('/').pop();
-                console.log(id);
+    if (!recipe) return <h1>Loading</h1>;
 
-                const { data } = await axios.get('http://localhost:5000/api/recipe/' + id);
-                setRecipe(data.data)
-            } catch (error) {
-                console.error('Error fetching the recipe:', error);
-            }
-        };
+    return (
+        <div className={styles.container}>
+            <button onClick={() => navigate(-1)} className={styles.backButton}>
+                <LineMdArrowLeft className={styles.backIcon} />
+                <strong className={styles.backText}>Back</strong>
+            </button>
 
-        fetchData();
-    }, []);
+            <div className={styles.content}>
+                <SidePanel title={'Edit Recipe'} fields={fields} handleSubmit={handleSubmit} />
 
-    const fields = [
-        { label: "Title", name: "title", type: "text" },
-        { label: "Description", name: "description", type: "textarea" },
-    ];
+                <div className={styles.mainSection}>
+                    <div className={styles.titleSection}>
+                        <strong>{recipe.title}</strong>
+                        <span className={styles.separator}>-</span>
+                        <strong className={styles.mealType}>{recipe.mealType}</strong>
+                    </div>
 
-    const randomImageIndex = Math.floor(Math.random() * 4)
+                    <div className={styles.ratingSection}>
+                        {Array.from({ length: 5 }, (_, index) => (
+                            index >= recipe.rating?.average
+                                ? <MynauiStar key={index} className={styles.emptyStar} />
+                                : <IcRoundStar key={index} className={styles.star} />
+                        ))}
+                        <span className={styles.ratingCount}>( {recipe.rating?.count || 0} )</span>
+                    </div>
 
+                    <div className={styles.statsContainer}>
+                        {stats.map((stat, index) => (
+                            <React.Fragment key={index}>
+                                <div className={styles.statItem}>
+                                    <strong className={styles.statValue}>{stat.value}</strong>
+                                    <p className={styles.statLabel}>{stat.label}</p>
+                                </div>
+                                {index < stats.length - 1 && <div className={styles.statDivider} />}
+                            </React.Fragment>
+                        ))}
+                    </div>
 
+                    <p className={styles.description}>{recipe.description}</p>
 
-
-    const handleSubmit = (formData) => async (event) => {
-        event.preventDefault();
-
-
-
-        try {
-            const { data } = await axios.put(import.meta.env.VITE_API_URL + 'recipe/' + recipe._id, formData, {
-                headers: {
-                    Authorization: `Bearer ${user.token}`
-                }
-            });
-
-            setRecipe(data.data)
-            setSidePanel(false)
-        } catch (error) {
-            console.error("Error submitting form:", error);
-            // alert("An error occurred while submitting the form.");
-        }
-    }
-
-    const handleDelete = async () => {
-        try {
-            await axios.delete(import.meta.env.VITE_API_URL + 'recipe/' + recipe._id, {
-                headers: {
-                    Authorization: `Bearer ${user.token}`
-                }
-            });
-            setSidePanel(false)
-            navigate(-1)
-        } catch (error) {
-            console.error("Error deleting recipe:", error);
-            // alert("An error occurred while deleting.");
-        }
-    }
-    const mockNutrition = { protein: '45g', carbs: '50g', fats: '40g', sugar: '2g', fiber: '3g' }
-
-
-    return <div style={{ margin: '5vw 0', position: 'relative', zIndex: 1,  }}>
-        <button onClick={() => navigate(-1)} style={{ marginBottom: '2vw', display: 'flex', height: '2vw', alignItems: 'center', gap: '1vw' }}>
-            <LineMdArrowLeft style={{ height: '2vw', width: '2vw', color: 'var(--ac-primary)' }} />
-            <strong style={{ fontSize: '2vw', color: 'var(--ac-primary)' }}>Back</strong>
-        </button>
-        {!recipe ? <h1>Loading</h1> : <div style={{ width: '100%', display: 'flex' }}>
-            <SidePanel title={'Edit Recipe'} fields={fields} handleSubmit={handleSubmit} />
-            <div style={{ flex: 1 }}>
-                <h1 style={{ fontSize: '2.5vw' }}>{recipe.title}</h1>
-                <div style={{ marginTop: '.5vw', display: 'flex', alignItems: 'center' }}>
-                    {Array.from({ length: 5 }, (_, index) => index >= recipe.rating?.average ? <MynauiStar key={index} style={{ width: '1.6vw', height: '1.6vw', color: 'var(--bg-highlight)' }} /> : <IcRoundStar key={index} style={{ width: '2vw', height: '2vw', color: 'var(--bg-highlight)' }} />)}
-                    <span style={{ marginLeft: '1vw', fontSize: '1.25vw', color: 'var(--bg-highlight)' }}>( {recipe.rating?.count || 0} )</span>
+                    {sections.map((section, index) => (
+                        <div key={index} className={styles.section}>
+                            <div className={styles.sectionTitle}>{section.title}</div>
+                            {section.title === 'nutrition' ? (
+                                <div className={styles.nutritionGrid}>
+                                    {section.content.map(([key, value], idx) => (
+                                        <div key={idx} className={styles.nutritionItem}>
+                                            <strong className={styles.nutritionValue}>{value}</strong>
+                                            <p className={styles.nutritionLabel}>{key}</p>
+                                        </div>
+                                    ))}
+                                </div>
+                            ) : (
+                                <ul className={styles.list}>
+                                    {section.content.map((item, idx) => (
+                                        <li key={idx}>{item}</li>
+                                    ))}
+                                </ul>
+                            )}
+                        </div>
+                    ))}
                 </div>
 
-                <div style={{ display: 'flex', alignItems: 'center', marginTop: '4vw', height: '4vw' }}>
-                    <div style={{ display: 'flex', flexDirection: 'column', alignItems: 'center', gap: '.5vw' }}>
-                        <strong style={{ fontSize: '2.5vw' }}>{recipe?.ingredients?.length || 0}</strong>
-                        <p style={{ fontSize: '1vw', textTransform: 'uppercase' }}>ingredients</p>
-                    </div>
-                    <div style={{ width: "1px", height: '80%', background: 'var(--t-primary)', margin: '0 3vw' }} />
-                    <div style={{ display: 'flex', flexDirection: 'column', alignItems: 'center', gap: '.5vw' }}>
-                        <strong style={{ fontSize: '2.5vw' }}>{(recipe?.prepTime + recipe?.cookTime) || 0}</strong>
-                        <p style={{ fontSize: '1vw', textTransform: 'uppercase' }}>minutes</p>
-                    </div>
-                    <div style={{ width: "1px", height: '80%', background: 'var(--t-primary)', margin: '0 3vw' }} />
-                    <div style={{ display: 'flex', flexDirection: 'column', alignItems: 'center', gap: '.5vw' }}>
-                        <strong style={{ fontSize: '2.5vw' }}>720</strong>
-                        <p style={{ fontSize: '1vw', textTransform: 'uppercase' }}>calories</p>
-                    </div>
-                </div>
-
-                <div style={{ marginTop: '4vw' }}>
-                    <div style={{
-                        background: 'var(--bg-highlight)', textTransform: 'uppercase', display: 'inline-block', padding: '.5vw 1vw', fontSize: '1.2vw', fontWeight: 'bold',
-                        borderRadius: '1vw .5vw 1vw .5vw'
-                    }}>
-                        nutrition
-                    </div>
-
-                    <div style={{ display: 'flex', marginTop: '1vw', gap: '1vw' }}>
-                        {Object.entries(mockNutrition).map((element, index) => {
-                            const [key, value] = element
-
-                            return <div key={index} style={{ marginTop: '2vw', width: '4vw', height: '4vw', borderRadius: '50%', background: '#D28A56', display: 'flex', justifyContent: 'center', alignItems: 'center', flexDirection: 'column' }}>
-                                <strong style={{ fontSize: '1.1vw' }}>{value}</strong>
-                                <p style={{ fontSize: '.8vw' }}>{key}</p>
-                            </div>
-                        })}
-                    </div>
+                <div className={styles.imageSection}>
+                    {recipe.author._id === user._id && (
+                        <div className={styles.actionButtons}>
+                            <button onClick={() => setSidePanel('Create Recipe')} className={`${styles.actionButton} ${styles.editButton}`}>
+                                <LineMdEditFullFilled className={styles.actionIcon} />
+                            </button>
+                            <button onClick={handleDelete} className={`${styles.actionButton} ${styles.deleteButton}`}>
+                                <IcRoundDelete className={styles.actionIcon} />
+                            </button>
+                        </div>
+                    )}
+                    <img
+                        src={`../src/assets/images/kitchen/${randomImageIndex}.webp`}
+                        className={styles.recipeImage}
+                        alt={recipe.title}
+                    />
                 </div>
             </div>
-            <div style={{ marginTop: '-2vw' }}>
-                {recipe.author._id === user._id && <div style={{ display: 'flex', flexDirection: 'column', alignItems: 'flex-end', }}>
-                    <div style={{ display: 'flex', gap: '.5vw', marginBottom: '1vw' }}>
-                        <button onClick={() => setSidePanel('Create Recipe')} style={{
-                            width: '3vw', height: '3vw', background: 'var(--ac-primary)', fontSize: '1.5vw', borderRadius: '1vw .5vw 1vw .5vw'
-
-                        }}>
-                            <LineMdEditFullFilled style={{ color: 'var(--bg-base)', width: '50%', height: '50%' }} />
-                        </button>
-                        <button onClick={handleDelete} style={{
-                            width: '3vw', height: '3vw', background: 'brown', fontSize: '1.5vw', borderRadius: '1vw .5vw 1vw .5vw'
-
-                        }}>
-                            <IcRoundDelete style={{ color: 'var(--bg-base)', width: '50%', height: '50%' }} />
-                        </button>
-                    </div>
-                </div>}
-                <img src={`../src/assets/images/kitchen/${randomImageIndex}.webp`} style={{ width: '40vw', height: 'auto', objectFit: 'contain', borderRadius: '3vw 1vw 3vw 1vw' }} />
-            </div>
-        </div>}
-    </div>;
+        </div>
+    );
 }
