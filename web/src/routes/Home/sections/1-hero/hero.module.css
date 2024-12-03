@@ -11,8 +11,8 @@
 .topRight { right: 0; top: -2vw; }
 .topLeft { left: 0; top: 0; }
 .bottomRight { right: 0; bottom: -2vw; }
-.sideImageWrapper { position: absolute; left: 50%; top: 50%; height: 70%; width: 40.25%; border-top-left-radius: 7vw; border-bottom-right-radius: 7vw; border-top-right-radius: 1.5vw; border-bottom-left-radius: 1.5vw; overflow: hidden; }
-.leftImage { transform: translate(-110%, -50%); }
-.rightImage { transform: translate(10%, -50%); }
-.centerImageWrapper { height: 100%; width: 57.5%; border-top-left-radius: 8.5vw; border-bottom-right-radius: 8.5vw; border-top-right-radius: 2vw; border-bottom-left-radius: 2vw; position: relative; z-index: 1; overflow: hidden; }
+.sideImageWrapper { transition: transform .3s; position: absolute; left: 50%; top: 50%; height: 70%; width: 40.25%; border-top-left-radius: 7vw; border-bottom-right-radius: 7vw; border-top-right-radius: 1.5vw; border-bottom-left-radius: 1.5vw; overflow: hidden; }
+.leftImage { transform: translate3d(-110%, -50%, 0); z-index: 1; }
+.rightImage { transform: translate3d(10%, -50%, 0); z-index: 0; }
+.centerImageWrapper { top: 50% ; left: 50%; transform: translate3d(-50%, -50%, 0) scale3d(1.4, 1.4, 1.4);   z-index: 2; }
 .image { width: 100%; height: 100%; object-fit: cover; object-position: center; }
