@@ -49,7 +49,7 @@ export default function Header() {
                         Search
                     </Link>
                 </div>
-                <button onClick={() => setSidePanel(true)} className={styles.createButton}>
+                <button onClick={() => setSidePanel('Create Recipe')} className={styles.createButton}>
                     <HugeiconsFileAdd /> Create Recipe
                 </button>
             </div>

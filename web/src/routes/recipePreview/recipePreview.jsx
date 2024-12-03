@@ -129,7 +129,7 @@ export default function RecipePreview() {
             <div style={{ marginTop: '-2vw' }}>
                 {recipe.author._id === user._id && <div style={{ display: 'flex', flexDirection: 'column', alignItems: 'flex-end', }}>
                     <div style={{ display: 'flex', gap: '.5vw', marginBottom: '1vw' }}>
-                        <button onClick={() => setSidePanel(true)} style={{
+                        <button onClick={() => setSidePanel('Create Recipe')} style={{
                             width: '3vw', height: '3vw', background: 'var(--ac-primary)', fontSize: '1.5vw', borderRadius: '1vw .5vw 1vw .5vw'
 
                         }}>

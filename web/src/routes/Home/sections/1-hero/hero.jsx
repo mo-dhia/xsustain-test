@@ -8,12 +8,11 @@ import leafTwo from '../../../../assets/images/backgrounds/1.png';
 import leafThree from '../../../../assets/images/backgrounds/2.png';
 import { BiCursorFill, HugeiconsFileAdd } from '../../../../components/svgs/svg';
 import { useHeroLogic } from './hero.func';
-import {  useRef } from 'react';
+import { useRef } from 'react';
 
 export default function Hero() {
     const slides = [useRef(null), useRef(null), useRef(null)];
-    
-    useHeroLogic(slides);
+    const { openSidePanel } = useHeroLogic(slides);
 
     return (
         <section className={styles.section}>
@@ -29,9 +28,9 @@ export default function Hero() {
                     <Link to='/recipes' className={`${styles.button} ${styles.secondaryButton}`}>
                         <BiCursorFill className={styles.buttonIcon} /> Discover
                     </Link>
-                    <Link to='/recipes' className={`${styles.button} ${styles.primaryButton}`}>
+                    <button onClick={openSidePanel} className={`${styles.button} ${styles.primaryButton}`}>
                         <HugeiconsFileAdd className={styles.buttonIcon} /> Create Recipe
-                    </Link>
+                    </button>
                 </div>
             </div>
             <div className={styles.imageContainer}>

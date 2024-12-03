@@ -4,24 +4,24 @@ import { useSidePanelLogic } from './sidePanel.func.jsx';
 import styles from './sidePanel.module.css';
 
 export default function SidePanel({ title, fields, handleSubmit }) {
-    const { 
-        formData, 
-        handleChange, 
-        Input, 
-        sidePanel, 
-        setSidePanel 
+    const {
+        formData,
+        handleChange,
+        Input,
+        sidePanel,
+        setSidePanel
     } = useSidePanelLogic(fields);
 
     return (
         <>
-            <div 
-                className={styles.overlay} 
-                onClick={() => setSidePanel(false)} 
-                style={sidePanel ? { opacity: 1, pointerEvents: 'all' } : null} 
+            <div
+                className={styles.overlay}
+                onClick={() => setSidePanel(false)}
+                style={sidePanel === title ? { opacity: 1, pointerEvents: 'all' } : null}
             />
-            <div 
-                className={styles.panel} 
-                style={!sidePanel ? { transform: 'translatex(100%)' } : null}
+            <div
+                className={styles.panel}
+                style={sidePanel !== title ? { transform: 'translatex(100%)' } : null}
             >
                 <div className={styles.header}>
                     <h1 className={styles.title}>{title}</h1>

@@ -1,7 +1,10 @@
 import { useEffect } from 'react';
 import styles from './hero.module.css'
+import { states } from '../../../../utils/store';
 
 export const useHeroLogic = (slides) => {
+    const { setSidePanel } = states()
+
     useEffect(() => {
         let count = 0;
         const totalSlides = slides.length;
@@ -19,9 +22,15 @@ export const useHeroLogic = (slides) => {
                 }
             });
 
-            count = (count - 1 + totalSlides) % totalSlides; 
+            count = (count - 1 + totalSlides) % totalSlides;
         }, 2000);
 
         return () => clearInterval(interval);
     }, [slides]);
+    
+    const openSidePanel = () => {
+        setSidePanel('Create Recipe')
+    }
+
+    return { openSidePanel }
 }
