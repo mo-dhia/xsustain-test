@@ -2,7 +2,7 @@ import React, { useEffect, useRef, useState, useCallback, useMemo } from 'react'
 import RecipeFilters from './subComps/filters';
 import { useSearchParams } from 'react-router-dom';
 import { fetchRecipes } from './recipes.func';
-import RecipeList from '../../components/recipeList';
+import RecipeList from '../../components/recipeList/recipeList';
 
 export default function Recipes() {
   const [searchParams, setSearchParams] = useSearchParams();

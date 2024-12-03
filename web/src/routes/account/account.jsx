@@ -1,14 +1,14 @@
-import React, { useEffect, useState } from 'react'
+import React, { useEffect, useState } from 'react';
 import axios from 'axios';
 import { states } from '../../utils/store';
 import SidePanel from '../../components/sidePanel/sidePanel';
-import RecipeList from '../../components/recipeList';
+import RecipeList from '../../components/recipeList/recipeList';
 import { LineMdInstagram, MageFacebookSquare } from '../../components/svgs/svg';
+import styles from './account.module.css';
 
 export default function Account() {
-  const [savedRecipes, setSavedRecipes] = useState([])
-  const [createdRecipes, setCreatedRecipes] = useState([])
-
+  const [savedRecipes, setSavedRecipes] = useState([]);
+  const [createdRecipes, setCreatedRecipes] = useState([]);
 
   const fields = [
     { label: "Email", name: "email", type: "email" },
@@ -16,10 +16,7 @@ export default function Account() {
     { label: "Confirm Password", name: "confirmPassword", type: "password" },
   ];
 
-
-  const { user, setUser, setSidePanel } = states()
-
-
+  const { user, setUser, setSidePanel } = states();
 
   const handleSubmit = (formData) => async (event) => {
     event.preventDefault();
@@ -38,10 +35,9 @@ export default function Account() {
 
       setUser(data);
       localStorage.setItem("user", JSON.stringify(data));
-      setSidePanel(false)
+      setSidePanel(false);
     } catch (error) {
       console.error("Error submitting form:", error);
-      // alert("An error occurred while submitting the form.");
     }
   };
 
@@ -49,47 +45,46 @@ export default function Account() {
     if (user?.token) {
       axios.get(import.meta.env.VITE_API_URL + 'users/profile', {
         headers: {
-          Authorization: `Bearer `+ user.token
+          Authorization: `Bearer ` + user.token
         }
       }).then(r => {
-        const { user, createdRecipes, savedRecipes } = r.data
+        const { user, createdRecipes, savedRecipes } = r.data;
 
-        setSavedRecipes(savedRecipes)
-        setCreatedRecipes(createdRecipes)
-      })
+        setSavedRecipes(savedRecipes);
+        setCreatedRecipes(createdRecipes);
+      });
     }
+  }, [user]);
 
-  }, [user])
-
-  return <div style={{ height: '100%', position: 'relative', width: '100%', }}>
-    <div style={{ width: '100%', marginTop: '7.5vw', display: 'flex', justifyContent: 'space-between' }}>
-      <div>
-        <div style={{ display: 'flex', gap: '2vw', alignItems: 'center' }}>
-          <img src='../src/assets/images/user/user.jpg' style={{ width: '20vw', height: '20vw', borderRadius: '50%', objectFit: 'cover', objectPosition: 'center' }} />
-          <div style={{ display: 'flex', flexDirection: 'column', gap: '3vw' }}>
-            <h1 style={{ fontSize: '4vw' }}>Med D. Bouthouri</h1>
-            <div style={{ width: '100%', height: '3vw' }}>
-              <LineMdInstagram style={{ height: '3vw', width: '3vw' }} />
-              <MageFacebookSquare style={{ height: '3vw', width: '3vw' }} />
+  return (
+    <div className={styles.container}>
+      <div className={styles.header}>
+        <div>
+          <div className={styles.profile}>
+            <img src='../src/assets/images/user/user.jpg' className={styles.profileImage} />
+            <div className={styles.profileInfo}>
+              <h1 className={styles.profileName}>Med D. Bouthouri</h1>
+              <div className={styles.socialIcons}>
+                <LineMdInstagram className={styles.icon} />
+                <MageFacebookSquare className={styles.icon} />
+              </div>
             </div>
           </div>
         </div>
+        <div className={styles.buttonGroup}>
+          <button onClick={() => setSidePanel(true)} className={styles.editButton}>Edit Profile</button>
+          <button onClick={() => {
+            setUser(null);
+            localStorage.removeItem('user');
+          }} className={styles.logoutButton}>Log out</button>
+        </div>
       </div>
-      <div style={{ display: 'flex', flexDirection: 'column', gap: '1vw', justifyContent: 'center' }}>
-        <button onClick={() => setSidePanel(true)} style={{ width: '12vw', height: '4vw', background: 'var(--ac-primary)', fontSize: '1.5vw', color: 'var(--t-highlight)', borderTopLeftRadius: '1.5vw', borderBottomRightRadius: '1.5vw', borderTopRightRadius: '.5vw', borderBottomLeftRadius: '.5vw' }}>Edit Profile</button>
-        <button onClick={() => {
-          setUser(null);
-          localStorage.removeItem('user');
-        }} style={{ background: 'brown', width: '12vw', height: '4vw', fontSize: '1.5vw', color: 'var(--t-highlight)', borderTopLeftRadius: '1.5vw', borderBottomRightRadius: '1.5vw', borderTopRightRadius: '.5vw', borderBottomLeftRadius: '.5vw' }}>Log out</button>
+
+      <SidePanel title={'Edit Profile'} handleSubmit={handleSubmit} fields={fields} />
+
+      <div className={styles.recipeListContainer}>
+        <RecipeList recipes={createdRecipes} />
       </div>
     </div>
-
-    <SidePanel title={'Edit Profile'} handleSubmit={handleSubmit} fields={fields} />
-
-
-    <div style={{ marginTop: '15vw' }}>
-      <RecipeList recipes={createdRecipes} />
-    </div>
-
-  </div>
+  );
 }

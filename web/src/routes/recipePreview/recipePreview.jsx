@@ -5,9 +5,6 @@ import SidePanel from '../../components/sidePanel/sidePanel';
 import { useNavigate } from 'react-router-dom';
 import { states } from '../../utils/store';
 
-// IcRoundStar
-// MynauiStar
-// TypcnStarHalfOutline
 
 export default function RecipePreview() {
     const [recipe, setRecipe] = useState(null)
@@ -78,7 +75,7 @@ export default function RecipePreview() {
     const mockNutrition = { protein: '45g', carbs: '50g', fats: '40g', sugar: '2g', fiber: '3g' }
 
 
-    return <div style={{ marginTop: '5vw', position: 'relative', zIndex: 1 }}>
+    return <div style={{ margin: '5vw 0', position: 'relative', zIndex: 1,  }}>
         <button onClick={() => navigate(-1)} style={{ marginBottom: '2vw', display: 'flex', height: '2vw', alignItems: 'center', gap: '1vw' }}>
             <LineMdArrowLeft style={{ height: '2vw', width: '2vw', color: 'var(--ac-primary)' }} />
             <strong style={{ fontSize: '2vw', color: 'var(--ac-primary)' }}>Back</strong>
