@@ -43,7 +43,7 @@ export const handleFormSubmit = (formData, isSignup, setUser) => async (e) => {
     try {
         if (isSignup) {
             console.log(formData);
-            if (formData.password !== formData.confirmPassword) {
+            if (!formData.password || formData.password !== formData.confirmPassword) {
                 alert("Passwords do not match");
             } else {
                 const { data } = await axios.post(import.meta.env.VITE_API_URL + 'users/register', formData);

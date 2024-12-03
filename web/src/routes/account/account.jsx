@@ -21,7 +21,7 @@ export default function Account() {
   const handleSubmit = (formData) => async (event) => {
     event.preventDefault();
 
-    if (formData.password !== formData.confirmPassword) {
+    if (!formData.password || formData.password !== formData.confirmPassword) {
       alert("Passwords do not match!");
       return;
     }

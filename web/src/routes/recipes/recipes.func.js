@@ -59,7 +59,7 @@ export const fetchRecipes = async (searchParams, setData, isPagination, scrollPa
         params[key] = value;
     });
     try {
-        const { data } = await axios.get('http://localhost:5000/api/recipe', {
+        const { data } = await axios.get(import.meta.env.VITE_API_URL + 'recipe', {
             params: {
                 ...params,
                 page: scrollPage,

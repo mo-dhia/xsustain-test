@@ -1,42 +1,27 @@
-import { useMemo, useState } from "react";
 import { LineMdClose } from '../svgs/svg';
-import { states } from "../../utils/store";
 import styles from './sidePanel.module.css';
-
-const createInitialFormData = (fields) => {
-    return fields.reduce((acc, field) => {
-        acc[field.name] = "";
-        return acc;
-    }, {});
-};
-
-const useForm = (fields) => {
-    const [formData, setFormData] = useState(createInitialFormData(fields));
-
-    const handleChange = (e) => {
-        const { name, value } = e.target;
-        setFormData((prev) => ({ ...prev, [name]: value }));
-    };
-
-    return { formData, handleChange, setFormData };
-};
+import { useSidePanelLogic } from './sidePanel.func.js';
 
 export default function SidePanel({ title, fields, handleSubmit }) {
-    const { formData, handleChange } = useForm(fields);
-    const { sidePanel, setSidePanel } = states();
-
-    const Input = useMemo(() => {
-        return ({ type, ...props }) => {
-            return type === 'textarea'
-                ? <textarea {...props} />
-                : <input {...props} />;
-        };
-    }, []);
+    const { 
+        formData, 
+        handleChange, 
+        Input, 
+        sidePanel, 
+        setSidePanel 
+    } = useSidePanelLogic(fields);
 
     return (
         <>
-            <div className={styles.overlay} onClick={() => setSidePanel(false)} style={sidePanel ? { opacity: 1, pointerEvents: 'all' } : null} />
-            <div className={styles.panel} style={!sidePanel ? { transform: 'translatex(100%)' } : null}>
+            <div 
+                className={styles.overlay} 
+                onClick={() => setSidePanel(false)} 
+                style={sidePanel ? { opacity: 1, pointerEvents: 'all' } : null} 
+            />
+            <div 
+                className={styles.panel} 
+                style={!sidePanel ? { transform: 'translatex(100%)' } : null}
+            >
                 <div className={styles.header}>
                     <h1 className={styles.title}>{title}</h1>
                     <button>
@@ -62,8 +47,7 @@ export default function SidePanel({ title, fields, handleSubmit }) {
                     ))}
                     <button type="submit" className={styles.submitButton}>Submit</button>
                 </form>
-            </div >
-
+            </div>
         </>
     );
 }

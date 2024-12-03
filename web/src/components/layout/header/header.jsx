@@ -4,9 +4,18 @@ import { HugeiconsFileAdd, MingcuteSearchLine } from '../../svgs/svg'
 import { Link } from 'react-router-dom'
 import styles from './header.module.css'
 import { useHeaderLogic } from './header.func.js'
+import SidePanel from '../../sidePanel/sidePanel.jsx'
 
 export default function Header() {
-    const { currentPage, updateSelector, links } = useHeaderLogic()
+    const { 
+        currentPage, 
+        updateSelector, 
+        links, 
+        fields,
+        handleSubmit,
+        setSidePanel 
+    } = useHeaderLogic()
+    
     const linksContainer = useRef(null)
     const selector = useRef(null)
 
@@ -40,10 +49,12 @@ export default function Header() {
                         Search
                     </Link>
                 </div>
-                <button className={styles.createButton}>
+                <button onClick={() => setSidePanel(true)} className={styles.createButton}>
                     <HugeiconsFileAdd /> Create Recipe
                 </button>
             </div>
+
+            <SidePanel title={'Create Recipe'} fields={fields} handleSubmit={handleSubmit} />
         </nav>
     )
 }
