@@ -1,6 +1,7 @@
-import { LineMdClose } from '../svgs/svg';
+
+import { LineMdClose } from '../svgs/svg.jsx';
+import { useSidePanelLogic } from './sidePanel.func.jsx';
 import styles from './sidePanel.module.css';
-import { useSidePanelLogic } from './sidePanel.func.js';
 
 export default function SidePanel({ title, fields, handleSubmit }) {
     const { 

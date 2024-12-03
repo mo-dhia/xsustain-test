@@ -1,4 +1,4 @@
-import { useMemo, useState } from "react";
+import React, { useMemo, useState } from "react";
 import { states } from "../../utils/store";
 
 const createInitialFormData = (fields) => {
@@ -25,9 +25,11 @@ export const useSidePanelLogic = (fields) => {
 
     const Input = useMemo(() => {
         return ({ type, ...props }) => {
-            return type === 'textarea'
-                ? <textarea {...props} />
-                : <input {...props} />;
+            return type === 'textarea' ? (
+                <textarea {...props} />
+            ) : (
+                <input {...props} />
+            );
         };
     }, []);
 

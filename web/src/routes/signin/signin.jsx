@@ -1,18 +1,10 @@
-import React, { useState } from 'react';
+import React from 'react';
 import { Link, Navigate } from 'react-router-dom';
+import { useSigninLogic } from './signin.func.js';
 import styles from './signin.module.css';
-import {
-    createInitialFormData,
-    createInputConfigs,
-    handleFormChange,
-    handleFormSubmit
-} from './signin.func.js';
-import { states } from '../../utils/store.js';
 
 export default function Signin({ isSignup }) {
-    const [formData, setFormData] = useState(createInitialFormData(isSignup));
-    const inputConfigs = createInputConfigs(isSignup);
-    const { setUser, user } = states()
+    const { formData, setFormData, inputConfigs, handleFormSubmit, user } = useSigninLogic(isSignup);
 
     if (user) {
         return <Navigate to="/" replace />;
@@ -25,7 +17,7 @@ export default function Signin({ isSignup }) {
                     <h1 className={styles.title}>
                         {isSignup ? 'Sign up' : 'Sign in'}
                     </h1>
-                    <form onSubmit={handleFormSubmit(formData, isSignup, setUser)} className={styles.form}>
+                    <form onSubmit={handleFormSubmit} className={styles.form}>
                         {inputConfigs.map((input, index) => (
                             <React.Fragment key={input.name}>
                                 <label className={`${styles.label} ${index > 0 ? styles.marginTop : ''}`}>
@@ -36,7 +28,7 @@ export default function Signin({ isSignup }) {
                                     type={input.type}
                                     placeholder={input.placeholder}
                                     value={formData[input.name] || ''}
-                                    onChange={handleFormChange(setFormData)}
+                                    onChange={e => setFormData(prev => ({ ...prev, [input.name]: e.target.value }))}
                                     className={styles.input}
                                     required
                                 />
@@ -60,9 +52,7 @@ export default function Signin({ isSignup }) {
                 </div>
             </div>
             <div className={styles.sideContainer}>
-                <div className={styles.sideBox} >
-
-                </div>
+                <div className={styles.sideBox}></div>
                 <div className={styles.sideBox}></div>
             </div>
         </main>

@@ -1,57 +1,6 @@
 import axios from "axios";
 
 
-export const updateQueryParams = (searchParams, setSearchParams, updates) => {
-    const newParams = new URLSearchParams(searchParams);
-
-    Object.entries(updates).forEach(([key, value]) => {
-        if (value && value !== 'all') {
-            newParams.set(key.toLowerCase(), value.toLowerCase());
-        } else if (key === 'search') {
-            newParams.set('search', '');
-        } else {
-            newParams.delete(key.toLowerCase());
-        }
-    });
-
-    setSearchParams(newParams);
-};
-
-export const getInitialValues = (searchParams) => ({
-    search: searchParams.get('search') || '',
-    difficulty: searchParams.get('difficulty') || 'all',
-    type: searchParams.get('type') || 'all',
-    cuisine: searchParams.get('cuisine') || 'all'
-});
-
-export const SELECTS = {
-    "Difficulty": ['Easy', 'Medium', 'Hard'],
-    "Meal Type": ['Breakfast', 'Lunch', 'Dinner', 'Snack'],
-    "Cuisine": ['Italian', 'Mexican', 'Chinese', 'Indian', 'American']
-};
-
-export const handleSearchChange = (e, setFilters, debouncedSearch) => {
-    const value = e.target.value;
-    setFilters(prev => ({ ...prev, search: value }));
-    debouncedSearch(value);
-};
-
-export const handleSelectChange = (key, value, filters, setFilters, searchParams, setSearchParams, setActiveDropdown) => {
-    const paramKey = key === 'Meal Type' ? 'type' : key;
-    const newFilters = {
-        ...filters,
-        [paramKey.toLowerCase()]: value.toLowerCase()
-    };
-
-    setFilters(newFilters);
-    updateQueryParams(searchParams, setSearchParams, newFilters);
-    setActiveDropdown(null);
-};
-
-export const toggleDropdown = (key, activeDropdown, setActiveDropdown) => {
-    setActiveDropdown(activeDropdown === key ? null : key);
-};
-
 
 export const fetchRecipes = async (searchParams, setData, isPagination, scrollPage = 0) => {
     const params = {};
@@ -73,3 +22,64 @@ export const fetchRecipes = async (searchParams, setData, isPagination, scrollPa
     }
 
 }
+
+
+
+
+
+
+
+
+import { useEffect, useRef, useState, useCallback, useMemo } from 'react';
+import { useSearchParams } from 'react-router-dom';
+
+
+
+export const useRecipesLogic = () => {
+  const [searchParams, setSearchParams] = useSearchParams();
+  const [data, setData] = useState({ recipes: [], pagination: {} });
+  const [isLoading, setIsLoading] = useState(false);
+  const searchInput = useRef(null);
+
+  const handleScroll = useCallback(async () => {
+    const { currentPage, totalPages } = data.pagination;
+    const isNearBottom =
+      window.innerHeight + document.documentElement.scrollTop
+      >= document.documentElement.offsetHeight - 100;
+
+    if (isNearBottom && currentPage < totalPages - 1 && !isLoading) {
+      setIsLoading(true);
+      await fetchRecipes(searchParams, setData, true, currentPage + 1);
+      setIsLoading(false);
+    }
+  }, [data.pagination, isLoading, searchParams]);
+
+  useEffect(() => {
+    const hasSearchParam = searchParams.has('search');
+    if (hasSearchParam && searchInput.current) {
+      searchInput.current.focus();
+    }
+    fetchRecipes(searchParams, setData, false);
+  }, []); 
+
+  useEffect(() => {
+    fetchRecipes(searchParams, setData, false);
+  }, [searchParams]);
+
+  useEffect(() => {
+    window.addEventListener('scroll', handleScroll);
+    return () => window.removeEventListener('scroll', handleScroll);
+  }, [handleScroll]);
+
+  const filtersProps = useMemo(() => ({
+    setData,
+    searchParams,
+    setSearchParams
+  }), [setData, searchParams, setSearchParams]);
+
+  return {
+    data,
+    filtersProps,
+    searchInput
+  };
+};
