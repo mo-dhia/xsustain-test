@@ -9,7 +9,7 @@ export const useHeroLogic = (slides) => {
         let count = 0;
         const totalSlides = slides.length;
 
-        const interval = setInterval(() => {
+        const updateSlides = () => {
             slides.forEach((slide, index) => {
                 if (index === count) {
                     slide.current.className = `${styles.sideImageWrapper} ${styles.centerImageWrapper}`;
@@ -23,7 +23,10 @@ export const useHeroLogic = (slides) => {
             });
 
             count = (count - 1 + totalSlides) % totalSlides;
-        }, 2000);
+        };
+
+        updateSlides();
+        const interval = setInterval(updateSlides, 2000);
 
         return () => clearInterval(interval);
     }, [slides]);
