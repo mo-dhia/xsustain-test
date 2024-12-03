@@ -10,7 +10,7 @@ export const useRecipePreviewLogic = () => {
     const randomImageIndex = Math.floor(Math.random() * 4);
 
     const mockNutrition = { protein: '45g', carbs: '50g', fats: '40g', sugar: '2g', fiber: '3g' };
-    
+
     const sections = [
         { title: 'nutrition', content: Object.entries(mockNutrition) },
         { title: 'ingredients', content: recipe?.ingredients || [] },
@@ -34,7 +34,7 @@ export const useRecipePreviewLogic = () => {
             try {
                 const url = window.location.href;
                 const id = url.split('/').pop();
-                const { data } = await axios.get('http://localhost:5000/api/recipe/' + id);
+                const { data } = await axios.get(import.meta.env.VITE_API_URL + 'recipe/' + id);
                 setRecipe(data.data);
             } catch (error) {
                 console.error('Error fetching the recipe:', error);
