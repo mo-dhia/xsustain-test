@@ -16,10 +16,10 @@ export default function RecipeList({ recipes }) {
 
                     <div style={{
                         width: '100%', height: '80%', background: 'var(--bg-elevated)', borderTopRightRadius: '1vw', borderTopLeftRadius: '4vw', borderBottomRightRadius: '4vw', borderBottomLeftRadius: '1vw',
-                        position: 'relative', display: 'flex', flexDirection: 'column', alignItems: 'center', padding: '2vw'
+                        position: 'relative', display: 'flex', flexDirection: 'column', alignItems: 'center', padding: '2vw', overflow: 'hidden'
                     }}>
                         <h2 style={{ marginTop: '60%', fontWeight: 'bolder', fontSize: '1.7vw', textAlign: 'center' }}>{element.title}</h2>
-                        <p style={{ marginTop: '2vw', fontSize: '1.2vw', color: 'var(--t-secondary)', textAlign: 'center', lineHeight: '1.5' }}>{element.description}</p>
+                        <p style={{ marginTop: '2vw', fontSize: '1.2vw', color: 'var(--t-secondary)', textAlign: 'center', lineHeight: '1.5', whiteSpace: 'balance' }}>{element.description}</p>
                     </div>
                     <img src={`../src/assets/images/plates/${randomNumber}.png`}
                         style={{ width: '17.5vw', height: '17.5vw', objectFit: 'contain', objectPosition: 'center', position: 'absolute', top: '-2vw' }} />
