@@ -1,12 +1,12 @@
 import React from 'react';
 import { BrowserRouter as Router, Routes, Route } from 'react-router-dom';
 import ProtectedRoute from './protectedRoute';
-import Signin from './components/signin/signin';
-import Home from './components/Home/Home';
-import Categories from './components/categories/categories';
-import Recipes from './components/recipes/recipes';
-import Account from './components/account/account';
-import RecipePreview from './components/recipePreview/recipePreview';
+import Home from './routes/Home/Home'
+import Categories from './routes/categories/categories'
+import Recipes from './routes/recipes/Recipes';
+import RecipePreview from './routes/recipePreview/recipePreview';
+import Signin from './routes/signin/signin'
+import Account from './routes/account/account';
 
 
 function App() {

@@ -1,9 +1,9 @@
 import React, { useEffect, useState } from 'react'
-import { LineMdClose, LineMdInstagram, MageFacebookSquare } from '../svgs/svg'
 import axios from 'axios';
-import { states } from '../../store';
-import RecipeList from '../recipes/subComps/list';
-import SidePanel from '../sidePanel/sidePanel';
+import { states } from '../../utils/store';
+import SidePanel from '../../components/sidePanel/sidePanel';
+import RecipeList from '../../components/recipeList';
+import { LineMdInstagram, MageFacebookSquare } from '../../components/svgs/svg';
 
 export default function Account() {
   const [savedRecipes, setSavedRecipes] = useState([])
@@ -49,7 +49,7 @@ export default function Account() {
     if (user?.token) {
       axios.get(import.meta.env.VITE_API_URL + 'users/profile', {
         headers: {
-          Authorization: `Bearer eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJpZCI6IjY3NGUxMmUxNGQ2ZThlMDg3NzhhMWE4NCIsImlhdCI6MTczMzE2OTg4OSwiZXhwIjoxNzM1NzYxODg5fQ.C1LAp_yfmkR8n2J683rF-e7ugoeDd6LZsbfTPbys0M0`
+          Authorization: `Bearer `+ user.token
         }
       }).then(r => {
         const { user, createdRecipes, savedRecipes } = r.data

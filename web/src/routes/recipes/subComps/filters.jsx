@@ -1,8 +1,8 @@
 import React, { useState, useEffect, useRef } from 'react';
-import { MingcuteSearchLine, PhCaretDownBold } from '../../svgs/svg';
 import styles from '../recipes.module.css';
 import { updateQueryParams, getInitialValues, SELECTS, handleSearchChange, handleSelectChange, toggleDropdown } from '../recipes.func';
 import { debounce } from '../../../utils/utils';
+import { MingcuteSearchLine, PhCaretDownBold } from '../../../components/svgs/svg';
 
 export default function RecipeFilters({ searchParams, setSearchParams, searchInput }) {
     const [filters, setFilters] = useState(getInitialValues(searchParams));

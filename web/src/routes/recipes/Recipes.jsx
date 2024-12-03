@@ -1,8 +1,8 @@
 import React, { useEffect, useRef, useState, useCallback, useMemo } from 'react';
 import RecipeFilters from './subComps/filters';
-import RecipeList from './subComps/list';
 import { useSearchParams } from 'react-router-dom';
 import { fetchRecipes } from './recipes.func';
+import RecipeList from '../../components/recipeList';
 
 export default function Recipes() {
   const [searchParams, setSearchParams] = useSearchParams();

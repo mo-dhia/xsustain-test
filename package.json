@@ -5,7 +5,9 @@
   "scripts": {
     "test": "echo \"Error: no test specified\" && exit 1",
     "web": "cd web && npm run dev",
-    "server": "cd server && npm start"
+    "server": "cd server && npm start",
+    "fill": "node ./server/mockData/insert",
+    "install": "cd web && npm i && cd ../server && npm i"
   },
   "author": "",
   "license": "ISC",

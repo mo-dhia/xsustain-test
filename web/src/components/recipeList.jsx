@@ -12,8 +12,6 @@ export default function RecipeList({ recipes }) {
                     width: 'calc((100% / 4) - (2vw * 0.75))', height: '30vw', display: 'flex', justifyContent: 'center', alignItems: 'flex-end', position: 'relative'
 
                 }}>
-
-
                     <div style={{
                         width: '100%', height: '80%', background: 'var(--bg-elevated)', borderTopRightRadius: '1vw', borderTopLeftRadius: '4vw', borderBottomRightRadius: '4vw', borderBottomLeftRadius: '1vw',
                         position: 'relative', display: 'flex', flexDirection: 'column', alignItems: 'center', padding: '2vw', overflow: 'hidden'

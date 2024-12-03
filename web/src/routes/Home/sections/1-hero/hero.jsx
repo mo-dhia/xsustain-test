@@ -6,7 +6,7 @@ import rightImg from '../../../../assets/images/Home/right.jpg';
 import leaf from '../../../../assets/images/backgrounds/0.png';
 import leafTwo from '../../../../assets/images/backgrounds/1.png';
 import leafThree from '../../../../assets/images/backgrounds/2.png';
-import { BiCursorFill, HugeiconsFileAdd } from '../../../svgs/svg';
+import { BiCursorFill, HugeiconsFileAdd } from '../../../../components/svgs/svg';
 
 export default function Hero() {
     return (

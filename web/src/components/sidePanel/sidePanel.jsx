@@ -1,6 +1,6 @@
 import { useMemo, useState } from "react";
-import { states } from "../../store";
 import { LineMdClose } from '../svgs/svg'
+import { states } from "../../utils/store";
 
 const createInitialFormData = (fields) => {
     return fields.reduce((acc, field) => {

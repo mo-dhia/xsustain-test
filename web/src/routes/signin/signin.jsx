@@ -7,7 +7,7 @@ import {
     handleFormChange,
     handleFormSubmit
 } from './signin.func.js';
-import { states } from '../../store.js';
+import { states } from '../../utils/store.js';
 
 export default function Signin({ isSignup }) {
     const [formData, setFormData] = useState(createInitialFormData(isSignup));

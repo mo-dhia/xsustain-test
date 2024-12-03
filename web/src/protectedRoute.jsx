@@ -1,7 +1,7 @@
 import { Navigate, Outlet } from 'react-router-dom';
-import { states } from './store';
 import Layout from './components/layout/layout';
 import { useEffect } from 'react';
+import { states } from './utils/store';
 
 const ProtectedRoute = () => {
     const { user, setUser } = states();

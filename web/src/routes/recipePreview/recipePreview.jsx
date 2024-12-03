@@ -1,9 +1,9 @@
 import axios from 'axios';
 import React, { useEffect, useState } from 'react';
-import { IcRoundStar, MynauiStar, LineMdEditFullFilled, IcRoundDelete, LineMdArrowLeft } from '../svgs/svg';
-import SidePanel from '../sidePanel/sidePanel';
-import { states } from '../../store';
+import { IcRoundStar, MynauiStar, LineMdEditFullFilled, IcRoundDelete, LineMdArrowLeft } from '../../components/svgs/svg';
+import SidePanel from '../../components/sidePanel/sidePanel';
 import { useNavigate } from 'react-router-dom';
+import { states } from '../../utils/store';
 
 // IcRoundStar
 // MynauiStar
